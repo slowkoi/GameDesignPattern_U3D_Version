@@ -14,4 +14,8 @@ public class Avatar : MonoBehaviour {
     {
         mTransform.Translate(DeltaV3);
     }
+    public void Rotate(Vector3 DeltaV3)
+    {
+        mTransform.Rotate(DeltaV3);
+    }
 }

@@ -38,7 +38,9 @@ public class CommandManager : MonoBehaviour
         mCallBackTime -= Time.deltaTime;
         if (mCommandStack.Count > 0 && mCallBackTime < mCommandStack.Peek().TheTime)
         {
-            mCommandStack.Pop().undo(TheAvatar);
+            Command cmd = mCommandStack.Pop();
+            cmd.undo(TheAvatar);
+            print(cmd.logInfo);
         }
     }
 
@@ -46,11 +48,11 @@ public class CommandManager : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.W))
         {
-            return new CommandMove(new Vector3(0, Time.deltaTime, 0), mCallBackTime);
+            return new CommandMove(new Vector3(0, 0, Time.deltaTime), mCallBackTime);
         }
         if (Input.GetKey(KeyCode.S))
         {
-            return new CommandMove(new Vector3(0, -Time.deltaTime, 0), mCallBackTime);
+            return new CommandMove(new Vector3(0, 0, -Time.deltaTime), mCallBackTime);
         }
         if (Input.GetKey(KeyCode.A))
         {
@@ -59,6 +61,14 @@ public class CommandManager : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             return new CommandMove(new Vector3(Time.deltaTime, 0, 0), mCallBackTime);
+        }
+        if (Input.GetKey(KeyCode.Q))
+        {
+            return new CommandRotate(new Vector3(0, -Time.deltaTime * 50, 0), mCallBackTime);
+        }
+        if (Input.GetKey(KeyCode.E))
+        {
+            return new CommandRotate(new Vector3(0, Time.deltaTime * 50, 0), mCallBackTime);
         }
         return null;
     }
@@ -71,6 +81,7 @@ public class CommandManager : MonoBehaviour
         {
             mCommandStack.Push(cmd);
             cmd.execute(TheAvatar);
+            print(cmd.logInfo);
         }
     }
 }
