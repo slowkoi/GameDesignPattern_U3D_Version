@@ -3,6 +3,7 @@
 public class CommandMove : Command {
 
     private Vector3 TransPos;
+    private Vector3 beforeTransPos;
 
     public CommandMove(Vector3 transPos, float time)
     {
@@ -22,11 +23,12 @@ public class CommandMove : Command {
     }
     public override void execute(Avatar avatar)
     {
+        beforeTransPos = -TransPos;
         avatar.Move(TransPos);
     }
     public override void undo(Avatar avatar)
     {
-        avatar.Move(-TransPos);
+        avatar.Move(beforeTransPos);
         logInfo = "撤销：" + logInfo;
     }
 }

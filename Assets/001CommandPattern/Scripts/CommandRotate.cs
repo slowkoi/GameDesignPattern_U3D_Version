@@ -3,6 +3,7 @@ using UnityEngine;
 public class CommandRotate : Command {
 
     private Vector3 Rotation;
+    private Vector3 beforeRotation;
 
     public CommandRotate(Vector3 rotation, float time)
     {
@@ -13,14 +14,16 @@ public class CommandRotate : Command {
         }else if (rotation.y < 0){
             logInfo = "向左旋转";
         }
+
     }
     public override void execute(Avatar avatar)
     {
+        beforeRotation = -Rotation;
         avatar.Rotate(Rotation);
     }
     public override void undo(Avatar avatar)
     {
-        avatar.Rotate(-Rotation);
+        avatar.Rotate(beforeRotation);
         logInfo = "撤销：" + logInfo;
     }
 }
